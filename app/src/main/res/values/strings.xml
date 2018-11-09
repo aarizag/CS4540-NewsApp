@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">News App</string>
+
+    <string name="error_message">
+        Error: No News Available to be displayed.
+    </string>
+</resources>
