@@ -3,6 +3,7 @@ package com.example.adryel.newsapp;
 import org.json.JSONException;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertTrue;
@@ -13,6 +14,7 @@ public class JSONTest {
 
     @Test
     public void parseJSONReturnsNonEmptyList() {
+        String temp = "{\"status\":\"ok\"}";
         ArrayList<NewsItem> items = JsonUtils.parseNews(testString);
         assertTrue(!items.isEmpty());
     }

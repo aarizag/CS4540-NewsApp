@@ -12,6 +12,7 @@ public class JsonUtils {
 
     public static ArrayList<NewsItem> parseNews(String JSONString){
         try {
+            Log.d("WHOLE STRING", JSONString);
             final String NEWS_AUTHOR = "author";
             final String NEWS_TITLE = "title";
             final String NEWS_DESCRIPTION = "description";
@@ -23,6 +24,7 @@ public class JsonUtils {
 
             ArrayList<NewsItem> parsedNewsData  = new ArrayList<>();
             JSONObject newsJson = new JSONObject(JSONString);
+//            Log.d("ARTICLES: ", newsJson.getString(JSON_ARTICLES));
 
             JSONArray newsArray = newsJson.getJSONArray(JSON_ARTICLES);
 
@@ -35,7 +37,7 @@ public class JsonUtils {
                 String toImage = singleArticle.getString(NEWS_URL_TO_IMAGE);
                 String publisher = singleArticle.getString(NEWS_PUBLISHED_AT);
 
-                Log.d("NEW ARTICLE", author + ", " + title);
+//                Log.d("NEW ARTICLE", author + ", " + title);
                 parsedNewsData.add(new NewsItem(author, title, descript, url, toImage, publisher));
             }
 
