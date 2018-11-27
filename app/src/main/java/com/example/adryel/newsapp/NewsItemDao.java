@@ -15,9 +15,6 @@ public interface NewsItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(NewsItem newsItem);
 
-    @Delete
-    void delete(NewsItem newsItem);
-
     @Query("DELETE FROM news_item")
     void clearAll();
 
