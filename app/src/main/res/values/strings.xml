@@ -4,5 +4,9 @@
     <string name="error_message">
         Error: No News Available to be displayed.
     </string>
+    <string name="news_item_thumbnail">News Item Thumbnail</string>
+    <string name="main_notification_channel_name">Main Notification</string>
+    <string name="notification_title">Cancel News Auto Sync</string>
+    <string name="notification_content">Tap to cancel news app auto sync</string>
 
 </resources>

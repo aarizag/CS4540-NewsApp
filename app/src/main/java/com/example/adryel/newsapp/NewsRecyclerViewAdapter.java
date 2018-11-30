@@ -1,13 +1,18 @@
 package com.example.adryel.newsapp;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
+
 
 /*
  * Recycler View Adapter to fit a News Item into the recycler view
@@ -32,11 +37,15 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
      * The holder for the various News Items that will be loaded into the Recycler View
      */
     public class NewsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final TextView mNewsTextView;
+        private final TextView mNewsTitleTextView;
+        private final TextView mNewsDescriptTextView;
+        private final ImageView mNewsThumbnail;
 
         public NewsItemViewHolder(View view) {
             super(view);
-            mNewsTextView = (TextView) view.findViewById(R.id.news_data);
+            mNewsTitleTextView = (TextView) view.findViewById(R.id.news_title);
+            mNewsDescriptTextView = (TextView) view.findViewById(R.id.news_description);
+            mNewsThumbnail = (ImageView) view.findViewById(R.id.news_thumbnail);
             view.setOnClickListener(this);
         }
 
@@ -63,9 +72,20 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(NewsItemViewHolder newsItemViewHolder, int position) {
-        String currentNews = mNewsData.get(position).getCurrentNews();
-        newsItemViewHolder.mNewsTextView.setText(currentNews);
+    public void onBindViewHolder(@NonNull NewsItemViewHolder newsItemViewHolder, int position) {
+        NewsItem currentNewsItem = mNewsData.get(position);
+
+        String newsTitle = currentNewsItem.getTitle();
+        String newsDescript = currentNewsItem.getDescription();
+        newsItemViewHolder.mNewsTitleTextView.setText(newsTitle);
+        newsItemViewHolder.mNewsDescriptTextView.setText(newsDescript);
+
+        Log.d("AdapterClass", currentNewsItem.urlToImage);
+        if(currentNewsItem.urlToImage != null){
+            Picasso.get()
+                    .load(currentNewsItem.urlToImage)
+                    .into(newsItemViewHolder.mNewsThumbnail);
+        }
     }
 
     @Override

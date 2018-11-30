@@ -46,7 +46,7 @@ public class NewsItem {
     }
 
     public String getDescription() {
-        return description;
+        return publishedAt + "\n" + description;
     }
 
     public String getTitle() {

@@ -19,34 +19,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NewsRecyclerViewAdapter.NewsOnClickHandler {
 
-    private ProgressBar mLoadingIndicator;
-    private NewsRecyclerViewAdapter mNewsAdapter;
-    private RecyclerView mRecyclerView;
-    private TextView mErrorMessageDisplay;
-    private NewsItemViewModel mNewsItemViewModel;
+    private static ProgressBar mLoadingIndicator;
+    private static NewsRecyclerViewAdapter mNewsAdapter;
+    private static RecyclerView mRecyclerView;
+    private static TextView mErrorMessageDisplay;
+    private static NewsItemViewModel mNewsItemViewModel;
 
-    private class NewsQueryTask extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
+    private static class NewsQueryTask extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
 
         @Override
         protected ArrayList<NewsItem> doInBackground(Void... voids) {
-//            URL requestUrl = NetworkUtils.buildUrl();
-//
-//            try {
-//                String jsonResponse = NetworkUtils
-//                        .getResponseFromHttpUrl(requestUrl);
-//
-//                return JsonUtils.parseNews(jsonResponse);
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
             LiveData<List<NewsItem>> allNews = mNewsItemViewModel.getNews();
             return (ArrayList<NewsItem>) allNews.getValue();
         }
@@ -94,8 +81,9 @@ public class MainActivity extends AppCompatActivity implements NewsRecyclerViewA
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-//        loadWeatherData();
-
+//        syncNewsData();
+        NewsSyncUtilities.scheduleFirebaseSync(this);
+        NotificationUtils.remindUserBecauseCharging(this);
     }
 
     @Override
@@ -123,24 +111,24 @@ public class MainActivity extends AppCompatActivity implements NewsRecyclerViewA
 
         if (id == R.id.action_search) {
             mNewsAdapter.setNewsData(null);
-            loadWeatherData();
+            syncNewsData();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadWeatherData() {
+    public static void syncNewsData() {
         showRecyclerView();
         mNewsItemViewModel.syncNews();
         new NewsQueryTask().execute();
     }
 
-    private void showRecyclerView() {
+    private static void showRecyclerView() {
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
-    private void showErrorMessage() {
+    private static void showErrorMessage() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
